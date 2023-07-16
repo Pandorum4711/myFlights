@@ -1,31 +1,62 @@
 <h1>Flight Search</h1>
 
-<div class="form-group">
+<form #f="ngForm">
+  <div class="form-group">
     <label>From:</label>
-    <input [(ngModel)]="from" class="form-control">
-</div>
-<div class="form-group">
-    <label>To:</label>
-    <input [(ngModel)]="to" class="form-control">
-</div>
+    <input
+      [(ngModel)]="from"
+      [ngModelOptions]="{ updateOn: 'change' }"
+      name="from"
+      required
+      minlength="3"
+      class="form-control"
+    />
+  </div>
 
-<div class="form-group">
-    <button class="btn btn-default" (click)="search()" [disabled]="!from || !to">
-        Search
+  <div class="error" *ngIf="!f?.controls?.['from']?.valid">
+    Es liegen Validierungsfehler für diese Eingabe vor.
+  </div>
+  <div class="error" *ngIf="f?.controls?.['from']?.hasError('required')">
+    Dieses Feld ist ein Pflichtfeld.
+  </div>
+  <div class="error" *ngIf="f?.controls?.['from']?.hasError('minlength')">
+    Erfassen Sie bitte min.
+    {{ f?.controls?.['from']?.errors?.['minlength']?.requiredLength }} Zeichen.
+  </div>
+
+  <div class="form-group">
+    <label>To:</label>
+    <input
+      [(ngModel)]="to"
+      name="to"
+      required
+      minlenght="3"
+      class="form-control"
+    />
+  </div>
+
+  <div class="form-group">
+    <button
+      class="btn btn-default"
+      (click)="search()"
+      [disabled]="!from || !to"
+    >
+      Search
     </button>
-</div>
+  </div>
+</form>
 
 <table class="table table-striped">
-
-    <tr *ngFor="let flight of flights" 
-        [ngClass]="{ 'active': flight === selectedFlight }">
-        <td>{{flight.id}}</td>
-        <td>{{flight.from}}</td>
-        <td>{{flight.to}}</td>
-        <td>{{flight.date | date:'dd.MM.yyyy HH:mm'}}</td>
-        <td><a (click)="select(flight)">Select</a></td>
-    </tr>
-
+  <tr
+    *ngFor="let flight of flights"
+    [ngClass]="{ active: flight === selectedFlight }"
+  >
+    <td>{{ flight.id }}</td>
+    <td>{{ flight.from }}</td>
+    <td>{{ flight.to }}</td>
+    <td>{{ flight.date | date : "dd.MM.yyyy HH:mm" }}</td>
+    <td><a (click)="select(flight)">Select</a></td>
+  </tr>
 </table>
 
 <b>Basket</b>

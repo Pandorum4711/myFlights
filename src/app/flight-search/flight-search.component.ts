@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Flight } from '../flight';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-flight-search',
@@ -13,9 +14,9 @@ export class FlightSearchComponent implements OnInit {
   to = 'Graz';
   flights: Array<Flight> = [];
   selectedFlight: Flight | null = null;
-
+  
   constructor(private http: HttpClient) {
-  }
+    }
 
   ngOnInit(): void {
   }
